@@ -9,6 +9,12 @@ exports.landing = class landing {
     this.tags = page.locator('//*[@id="root"]/div/div[2]/div/div[2]/div');
   }
 
+  url = "https://conduit.realworld.how/";
+
+  async openLandingPage() {
+    await this.page.goto(this.url);
+  }
+
   async visibility(element) {
     return await element.isVisible();
   }

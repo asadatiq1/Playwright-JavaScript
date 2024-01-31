@@ -4,9 +4,9 @@ import { landing } from "../PageObjects/Landing";
 let lan;
 
 beforeEach(async ({ page }) => {
-  await page.goto("https://conduit.realworld.how/");
-  await page.waitForTimeout(7000);
   lan = new landing(page);
+  await lan.openLandingPage();
+  await page.waitForTimeout(7000);
 });
 
 test("Verify landing page is visible", async ({ page }) => {
