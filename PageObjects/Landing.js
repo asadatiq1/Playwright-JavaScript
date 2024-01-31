@@ -1,8 +1,10 @@
 const { expect } = require("@playwright/test");
+const { utils } = require("../CommonUtils/utils");
 
 exports.landing = class landing {
   constructor(page) {
     this.page = page;
+    this.util = new utils(page);
     this.globalFeeddTab = page.locator("ul").filter({ hasText: "Global Feed" });
     this.header = page.getByRole("heading", { name: "conduit" });
     this.subheader = page.getByText("A place to share your");
@@ -15,19 +17,8 @@ exports.landing = class landing {
     await this.page.goto(this.url);
   }
 
-  async visibility(element) {
-    return await element.isVisible();
-  }
-
-  async waits(element) {
-    const val = await element.isVisible();
-    if (!val) {
-      await this.page.waitForTimeout(5000);
-    } else return;
-  }
-
   async verifyLandingPage() {
-    await this.waits(this.header);
+    await this.util.waits(this.header);
     const actualText = await this.header.innerText();
     expect(actualText).toEqual(expect.stringContaining("conduit"));
   }
@@ -41,7 +32,7 @@ exports.landing = class landing {
     ];
 
     for (const element of elementsToCheck) {
-      const isElementVisible = await this.visibility(element);
+      const isElementVisible = await this.util.visibility(element);
       console.log(isElementVisible);
       expect(isElementVisible).toBe(true);
     }
